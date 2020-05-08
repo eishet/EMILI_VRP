@@ -10,6 +10,7 @@ Usage:
 
 EMILI INSTANCE_FILE_PATH PROBLEM <ALGORITHM DESCRIPTION> [-it|-ro time] [rnds seed] [ps]
 
+./emili/"donde esta la instancia del problema.txt" "nombre problema definido en builder" "descripcion de algoritmo, sintax definida en builder" [-it|-ro time] [rnds seed] [ps]
 
 Please, do not modify the main classes in any way.
 The framework is made to be interoperable, flexible and modular.

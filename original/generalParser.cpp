@@ -376,8 +376,8 @@ emili::LocalSearch* prs::GeneralParser::parseParams()
             return ls;
         }
     }
-    std::cout << "------" << std::endl;
-    std::cout << "No parser for "<< p << " available" << std::endl;
+    std::cout << "----popip--" << std::endl;
+    std::cout << "No parser for "<< p << " available adsa" << std::endl;
    }
     std::cerr << "A problem was expected!" << std::endl;
     // info
@@ -553,7 +553,7 @@ emili::LocalSearch* prs::GeneralParserE::parseParams()
     }
     else
     {
-        std::cout << "------" << std::endl;
+        std::cout << "-----" << std::endl;
         std::cout << "No parser for "<< p << " available" << std::endl;
     }
    }

@@ -11,13 +11,15 @@
 #include <cstring>
 #include <algorithm>
 #include "generalParser.h"
+
 //#define MAIN_NEW
 #ifndef MAIN_NEW
-#include "pfsp/paramsparser.h"
+#include "vrp/paramsparser.h"
 #else
-#include "pfsp/pfspBuilder.h"
-//#include "template/problem_builder.h"
+#include "vrp/vrp_builder.h"
+//#include "pfsp/pfspBuilder.h"
 #endif
+
 #include "setup.h"
 #include <sys/types.h>
 
@@ -95,15 +97,22 @@ int main(int argc, char *argv[])
 
     prs::GeneralParserE  ps(argv,argc);
     prs::EmBaseBuilder emb(ps,ps.getTokenManager());
-    prs::PfspBuilder pfspb(ps,ps.getTokenManager());
-    //prs::problemX::ProblemXBuilder px(ps,ps.getTokenManager());
-    ps.addBuilder(&emb);
-    //ps.addBuilder(&px);
-#ifdef EM_LIB
-    loadBuilders(ps);
-#else
-    ps.addBuilder(&pfspb);
-#endif
+
+    //prs::PfspBuilder pfspb(ps,ps.getTokenManager());
+    prs::vrp::VrpBuilder vrpb(ps,ps.getTokenManager()); //ramiro
+
+    //ps.addBuilder(&emb);
+    ps.addBuilder(&vrpb);   //ramiro
+
+
+//#ifdef EM_LIB
+    //loadBuilders(ps);
+//#else
+    //ps.addBuilder(&pfspb);
+//#endif
+
+
+
     ls = ps.parseParams();
     if(ls!=nullptr)
     {
@@ -125,7 +134,7 @@ int main(int argc, char *argv[])
             double solval = solution->getSolutionValue();
             std::cout << "time : " << time_elapsed << std::endl;
             std::cout << "iteration counter : " << emili::iteration_counter()<< std::endl;
-          //  std::cerr << solution->getSolutionValue() << std::endl;            
+          //  std::cerr << solution->getSolutionValue() << std::endl;
             std::cout << "Objective function value: "<< std::fixed << solval << std::endl;
             std::cerr << std::fixed << solval << std::endl;
             std::cout << "Found solution: ";

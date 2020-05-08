@@ -225,12 +225,12 @@
 
 /*void prs::emili_header()
 {
-    std::cout << "\t ______ __  __ _____ _      _____ " << std::endl;
+    std::cout << "\t ______ __   __ _____ _      _____ " << std::endl;
     std::cout << "\t|  ____|  \\/  |_   _| |    |_   _|" << std::endl;
-    std::cout << "\t| |__  | \\  / | | | | |      | |  " << std::endl;
-    std::cout << "\t|  __| | |\\/| | | | | |      | |  " << std::endl;
-    std::cout << "\t| |____| |  | |_| |_| |____ _| |_ " << std::endl;
-    std::cout << "\t|______|_|  |_|_____|______|_____|" << std::endl;
+    std::cout << "\t| |__  | |\  / | | | | |      | |  " << std::endl;
+    std::cout << "\t|  __| | | \/| | | | | |      | |  " << std::endl;
+    std::cout << "\t| |____| |   | |_| |_| |____ _| |_ " << std::endl;
+    std::cout << "\t|______|_|   |_|_____|______|_____|" << std::endl;
     std::cout << std::endl;
 }*/
 char* problem_string;
