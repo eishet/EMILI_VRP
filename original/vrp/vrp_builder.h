@@ -22,6 +22,12 @@ public:
     virtual emili::InitialSolution* buildInitialSolution();
     virtual emili::Neighborhood* buildNeighborhood();
     virtual emili::Perturbation* buildPerturbation();
+
+    //virtual emili::LocalSearch* buildAlgo();
+    //virtual emili::Problem* buildProblem();
+
+    //virtual emili::Termination* buildTermination();
+    //virtual emili::Acceptance* buildAcceptance();
 };
 }
 }

@@ -539,7 +539,7 @@ emili::LocalSearch* prs::GeneralParserE::parseParams()
         emili::setRootAlgorithm(ls);
         if(tm.seek(PRINT_SOLUTION)>0)
         {
-            emili::set_print(true);
+            //emili::set_print(true);
             if(ls->getSearchTime() > 0){
                 std::cout << "The solution will be print at the end of the execution" << std::endl;
             }

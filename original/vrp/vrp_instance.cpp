@@ -246,7 +246,7 @@ float VrpInstance::computeSolution(std::vector < vector<int> > &solution)
 
     for(int i=0; i<solution.size(); i++){
       computedValue = computedValue + distanceWarehouses[solution[i][0]];
-      if(solution[i].size() > 1){
+      if(solution[i].size() > 0){
         computedValue = computedValue + distanceWarehouses[solution[i][solution[i].size()-1]];
       }
       for(int j=0; j<solution[i].size()-1; j++){

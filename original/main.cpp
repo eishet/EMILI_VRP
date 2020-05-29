@@ -15,6 +15,7 @@
 //#define MAIN_NEW
 #ifndef MAIN_NEW
 #include "vrp/paramsparser.h"
+//#include "pfsp/paramsparser.h"
 #else
 #include "vrp/vrp_builder.h"
 //#include "pfsp/pfspBuilder.h"
@@ -34,6 +35,7 @@
 #ifdef EM_LIB
 typedef prs::Builder* (*getBuilderFcn)(prs::GeneralParserE* ge);
 
+/* Lee la dirección y carga el builder correspondiente*/
 void loadBuilders(prs::GeneralParserE& ps)
 {
    std::string so_ext(SO_LIB);
@@ -101,19 +103,18 @@ int main(int argc, char *argv[])
     //prs::PfspBuilder pfspb(ps,ps.getTokenManager());
     prs::vrp::VrpBuilder vrpb(ps,ps.getTokenManager()); //ramiro
 
-    //ps.addBuilder(&emb);
-    ps.addBuilder(&vrpb);   //ramiro
+    ps.addBuilder(&emb);    //jorge (habilita embasebuilder para la utilizacion de "nols")
+    //ps.addBuilder(&vrpb);   //ramiro
 
 
-//#ifdef EM_LIB
-    //loadBuilders(ps);
-//#else
-    //ps.addBuilder(&pfspb);
-//#endif
+#ifdef EM_LIB
+    loadBuilders(ps);
+#else
+    ps.addBuilder(&vrpb);
+#endif
 
 
-
-    ls = ps.parseParams();
+    ls = ps.parseParams();        // <------ hasta acá llega (solucion: habilitar embasebuilder)
     if(ls!=nullptr)
     {
         pls = ls->getSearchTime();//ps.ils_time;
@@ -123,18 +124,21 @@ int main(int argc, char *argv[])
         {
             solution = ls->timedSearch(pls);
         }
-        else
+        else                      // <- entra a este else
         {
             solution = ls->search();
+
+            solution->getSolutionRepresentation(); //imprime la representacion de la solucion inicial y la funcion objetivo
+            std::cout << "ENTRO ACÁ" << std::endl;
         }
         if(!emili::get_print())
         {
             solution = ls->getBestSoFar();
             double time_elapsed = (double)(clock()-time)/CLOCKS_PER_SEC;
-            double solval = solution->getSolutionValue();
+            double solval = solution->getSolutionValue();                 
             std::cout << "time : " << time_elapsed << std::endl;
             std::cout << "iteration counter : " << emili::iteration_counter()<< std::endl;
-          //  std::cerr << solution->getSolutionValue() << std::endl;
+            std::cerr << solution->getSolutionValue() << std::endl;
             std::cout << "Objective function value: "<< std::fixed << solval << std::endl;
             std::cerr << std::fixed << solval << std::endl;
             std::cout << "Found solution: ";

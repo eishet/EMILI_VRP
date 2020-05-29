@@ -4,9 +4,20 @@
 #include "../emilibase.h"
 #include "vrp_instance.h"
 
-
+/**
+ *
+ *  Vehicle Routing Problem components for EMILI
+ *
+*/
 namespace emili{
 namespace vrp{
+
+
+
+/*----------------------------------------------------------------------------------------------------------------*
+ *-------------------------------------PROBLEM & VRPPROBLEM TYPE CLASS--------------------------------------------*
+ *----------------------------------------------------------------------------------------------------------------*/
+
 
 class VrpProblem: public emili::Problem{
 protected:
@@ -27,12 +38,16 @@ public:
 
     /**  This method returns the number of clients*/
     int getNcustomers();
-
-    /**  This method returns the capacity if the truck*/
+    /**  This method returns the capacity of the truck*/
     int getTruckCapacity();
     /**  This method returns the demand of each client*/
     std::vector<int> getDemands();
+    
 
+    /** This method returns the matrix of distance between customers*/
+    std::vector<std::vector<float>> getDistanceMatrix();
+    /** This method returns the distance between customers and depot*/
+    std::vector<float> getDistanceWarehouses();
 };
 
 /**  CLASSIC CVRP*/
@@ -48,51 +63,39 @@ public:
 
 
 
-/**
- * @brief The Solution class
- * This class models a solution to an optimization problem.
- * This class should contain all the data structures regarding the solution.
- */
+/*----------------------------------------------------------------------------------------------------------------------*
+ *-------------------------------------SOLUTION & INITIALSOLUTION TYPE CLASS--------------------------------------------*
+ *----------------------------------------------------------------------------------------------------------------------*/
+
+
 class VrpSolution: public emili::Solution
 {
 protected:
-    std::vector< std::vector< int > > solutionRepresentation;
-    double solutionValue;
+    std::vector< std::vector< int > > solutionRepresentation; //valores solucion vrp
+    double solutionValue; //funcion objetivo
 
     virtual const void* getRawData()const;
     virtual void setRawData(const void* data);
 public:
     //VrpSolution(std::vector< std::vector< int > >& solution, double solutionValue):solution(solution), solutionValue(solutionValue){}
     VrpSolution(std::vector< std::vector< int > > & solution, double value):emili::Solution(value),solutionValue(value),solutionRepresentation(solution){}
-    virtual ~VrpSolution() {}
+    virtual ~VrpSolution() {};
 
-/*
-    PermutationFlowShopSolution(double p_value):emili::Solution(p_value),solution()
-    {}
-    PermutationFlowShopSolution(std::vector< int >& solution):emili::Solution(1e9),solution(solution)
-    {}
-    PermutationFlowShopSolution(double p_value,std::vector< int >& solution):emili::Solution(p_value),solution(solution)
-    {}
-*/
-    virtual std::string getSolutionRepresentation();
+    virtual std::vector< std::vector< int > >& getSolution(); //retorna la representacion de la solucion
+    virtual void setSolution(std::vector< std::vector< int > > & sol); //set the solution representation
+    virtual double getSolutionValue(); //retorna valor de la solucion
+    virtual void setSolutionValue(double solutionValue); //setea la solucion
+
+    virtual std::string getSolutionRepresentation(); //imprime la representacion de la solucion
+    virtual void printObjetivefunction(); //imprime la funcion objetivo
+
 
     virtual Solution* clone();
-    virtual bool isFeasible() {return true;}
+    virtual bool isFeasible(); //{return true;};
 
-    /** get and set methods **/
-    std::vector< std::vector< int > >& getSolution();
-    void setSolution(std::vector< std::vector< int > > & sol);
-
-    double getSolutionValue();
-    void setSolutionValue(double solutionValue);
 };
 
-
-
-/**
- * @brief The InitialSolution class
- * The initial solution generator
- */
+//The initial solution generator
 class VrpInitialSolution: public emili::InitialSolution
 {
 protected:
@@ -130,12 +133,13 @@ public:
     double calculateInitialSolutionValue(std::vector < std::vector<int> > &solution);
 };
 
-/**
- * @brief The Neighborhood class
- *     The class models the neighborhood of a solution
- *     This class should return the neighbors of a base solution
- *     given a specific neighborhood relation.
- */
+
+
+/*--------------------------------------------------------------------------------------------------------*
+ *-------------------------------------NEIGHBORHOOD TYPE CLASS--------------------------------------------*
+ *--------------------------------------------------------------------------------------------------------*/
+
+
 class VrpNeighborhood: public emili::Neighborhood
 {
 protected:
@@ -191,9 +195,9 @@ public:
     NeighborhoodIterator begin(emili::Solution* base);
     void reset();
     Solution* random(Solution* currentSolution);
-    int size(){return 1;};
+    int size(std::vector < std::vector<int> >& solution);
 
-private:
+//private:
     void getNextNeighborPos(std::vector < std::vector<int> >& solution);
     bool proposedNextIsFeasible(std::vector < std::vector<int> >& solution);
     void makeShift(std::vector < std::vector<int> >& solution);
@@ -201,6 +205,11 @@ private:
 
 };
 
+
+
+/*-------------------------------------------------------------------------------------------------------*
+ *-------------------------------------PERTUBATION TYPE CLASS--------------------------------------------*
+ *-------------------------------------------------------------------------------------------------------*/
 
 
 /** @brief The Perturbation class

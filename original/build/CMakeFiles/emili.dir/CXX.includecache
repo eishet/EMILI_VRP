@@ -101,6 +101,18 @@ cstdlib
 -
 ctime
 -
+climits
+-
+string
+-
+sstream
+-
+assert.h
+-
+algorithm
+-
+limits
+-
 
 /home/zildrok/EMILI_VRP/original/vrp/vrp.h
 ../emilibase.h
